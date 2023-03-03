@@ -1,4 +1,4 @@
-import {Text, SafeAreaView, Dimensions} from 'react-native';
+import {Text, SafeAreaView, Dimensions, ScrollView} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {getPopularMovies, getUpcomingMovies} from '../services';
 import SlideList from '../components/SlideList/SlideList';
@@ -29,20 +29,22 @@ const Home = () => {
   }
   return (
     <SafeAreaView>
-      {/* Upcoming movies */}
-      <SlideList
-        width={win.width}
-        height={win.height / 2}
-        content={upcomingMovie}
-        title="Upcoming"
-      />
-      {/* Popular movies */}
-      <SlideList
-        width={win.width / 3}
-        height={200}
-        content={popularMovie}
-        header="Popular Movies"
-      />
+      <ScrollView>
+        {/* Upcoming movies */}
+        <SlideList
+          width={win.width}
+          height={win.height / 2}
+          content={upcomingMovie}
+          title="Upcoming"
+        />
+        {/* Popular movies */}
+        <SlideList
+          width={win.width / 3}
+          height={200}
+          content={popularMovie}
+          header="Popular Movies"
+        />
+      </ScrollView>
     </SafeAreaView>
   );
 };

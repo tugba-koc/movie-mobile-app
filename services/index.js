@@ -24,5 +24,5 @@ export const getUpcomingMovies = async () => {
 export const getPopularTv = async () => {
   let res = await fetch(`${API_BASE_URL}/tv/popular?api_key=${API_KEY}&page=1`);
   let resJson = await res.json();
-  return resJson.results[0];
+  return resJson.results;
 };

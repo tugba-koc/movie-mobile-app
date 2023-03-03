@@ -1,6 +1,6 @@
 import {Text, SafeAreaView, Dimensions, ScrollView} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {getPopularMovies, getUpcomingMovies} from '../services';
+import {getPopularMovies, getPopularTv, getUpcomingMovies} from '../services';
 import SlideList from '../components/SlideList/SlideList';
 
 const win = Dimensions.get('screen');
@@ -8,6 +8,7 @@ const win = Dimensions.get('screen');
 const Home = () => {
   const [upcomingMovie, setUpcomingMovie] = useState([]);
   const [popularMovie, setPopularMovie] = useState([]);
+  const [popularTv, setPopularTv] = useState([]);
   const [errorText, setErrorText] = useState('');
 
   useEffect(() => {
@@ -17,6 +18,10 @@ const Home = () => {
 
     getPopularMovies()
       .then(results => setPopularMovie(results))
+      .catch(error => setErrorText('An error occured in the server.'));
+
+    getPopularTv()
+      .then(results => setPopularTv(results))
       .catch(error => setErrorText('An error occured in the server.'));
   }, []);
 
@@ -43,6 +48,13 @@ const Home = () => {
           height={200}
           content={popularMovie}
           header="Popular Movies"
+        />
+        {/* Popular tv */}
+        <SlideList
+          width={win.width / 3}
+          height={200}
+          content={popularTv}
+          header="Popular Tv"
         />
       </ScrollView>
     </SafeAreaView>

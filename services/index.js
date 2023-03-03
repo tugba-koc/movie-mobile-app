@@ -3,24 +3,26 @@ import {API_KEY} from '@env';
 const API_BASE_URL = 'https://api.themoviedb.org/3';
 
 // Get popular movies
-const getPopularMovies = async () => {
+export const getPopularMovies = async () => {
   let res = await fetch(
     `${API_BASE_URL}/movie/popular?api_key=${API_KEY}&page=1`,
   );
   let resJson = await res.json();
-  return resJson.results[0];
+  return resJson.results;
 };
 
 // Get upcoming movies
-const getUpcomingMovies = async () => {
+export const getUpcomingMovies = async () => {
   let res = await fetch(
-    `${API_BASE_URL}/movie/popular?api_key=${API_KEY}&page=1`,
+    `${API_BASE_URL}/movie/upcoming?api_key=${API_KEY}&page=1`,
   );
   let resJson = await res.json();
-  return resJson.results[0];
+  return resJson.results;
 };
 
-export default {
-  getPopularMovies,
-  getUpcomingMovies,
+// Get popular tv
+export const getPopularTv = async () => {
+  let res = await fetch(`${API_BASE_URL}/tv/popular?api_key=${API_KEY}&page=1`);
+  let resJson = await res.json();
+  return resJson.results[0];
 };

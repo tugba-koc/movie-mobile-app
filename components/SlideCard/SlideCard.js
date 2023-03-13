@@ -47,14 +47,14 @@ const SlideCard = ({title, imgEndpointUrl, width, height, name}) => {
               margin: 4,
             }}
             source={
-              !imgEndpointUrl
+              imgEndpointUrl
                 ? {
                     uri: `${IMAGE_BASE_URL}${imgEndpointUrl}`,
                   }
                 : require('../../assets/images/placeholder.jpeg')
             }
           />
-          <Text style={styles.movieName}>{name}</Text>
+          {!imgEndpointUrl && <Text style={styles.movieName}>{name}</Text>}
         </View>
       )}
     </TouchableOpacity>

@@ -1,4 +1,9 @@
-import {Text, SafeAreaView, Dimensions, ScrollView} from 'react-native';
+import {
+  ActivityIndicator,
+  SafeAreaView,
+  Dimensions,
+  ScrollView,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {
   getFamilyMovies,
@@ -16,64 +21,72 @@ const Home = () => {
   const [familyMovie, setFamilyMovie] = useState([]);
   const [popularTv, setPopularTv] = useState([]);
   const [errorText, setErrorText] = useState('');
+  const [loaded, setLoaded] = useState(false);
+
+  const getData = () => {
+    return Promise.all([
+      getUpcomingMovies(),
+      getPopularMovies(),
+      getPopularTv(),
+      getFamilyMovies(),
+    ]);
+  };
 
   useEffect(() => {
-    getUpcomingMovies()
-      .then(results => setUpcomingMovie(results))
-      .catch(error => setErrorText('An error occured in the server.'));
-
-    getPopularMovies()
-      .then(results => setPopularMovie(results))
-      .catch(error => setErrorText('An error occured in the server.'));
-
-    getPopularTv()
-      .then(results => setPopularTv(results))
-      .catch(error => setErrorText('An error occured in the server.'));
-
-    getFamilyMovies()
-      .then(results => setFamilyMovie(results))
-      .catch(error => setErrorText('An error occured in the server.'));
+    setLoaded(true);
+    getData()
+      .then(([upcomingMovie, popularMovie, popularTv, familyMovie]) => {
+        setUpcomingMovie(upcomingMovie);
+        setPopularMovie(popularMovie);
+        setPopularTv(popularTv);
+        setFamilyMovie(familyMovie);
+      })
+      .catch(error => setErrorText('An error occured in the server.'))
+      .finally(() => {
+        setLoaded(false);
+      });
   }, []);
 
-  if (errorText) {
-    return (
-      <SafeAreaView>
-        <Text style={{color: 'red'}}>{errorText}</Text>
-      </SafeAreaView>
-    );
-  }
   return (
     <SafeAreaView>
-      <ScrollView>
-        {/* Upcoming movies */}
-        <SlideList
-          width={win.width}
-          height={win.height / 2}
-          content={upcomingMovie}
-          title="Upcoming"
-        />
-        {/* Popular movies */}
-        <SlideList
-          width={win.width / 3}
-          height={200}
-          content={popularMovie}
-          header="Popular Movies"
-        />
-        {/* Popular tv */}
-        <SlideList
-          width={win.width / 3}
-          height={200}
-          content={popularTv}
-          header="Popular Tv"
-        />
-        {/* Family movies */}
-        <SlideList
-          width={win.width / 3}
-          height={200}
-          content={familyMovie}
-          header="Family Movies"
-        />
-      </ScrollView>
+      {!loaded ? (
+        <ScrollView>
+          {/* Upcoming movies */}
+          <SlideList
+            width={win.width}
+            height={win.height / 2}
+            content={upcomingMovie}
+            title="Upcoming"
+            error={errorText}
+          />
+          {/* Popular movies */}
+          <SlideList
+            width={win.width / 3}
+            height={200}
+            content={popularMovie}
+            header="Popular Movies"
+            error={errorText}
+          />
+          {/* Popular tv */}
+          <SlideList
+            width={win.width / 3}
+            height={200}
+            content={popularTv}
+            header="Popular Tv"
+            error={errorText}
+          />
+          {/* Family movies */}
+          <SlideList
+            width={win.width / 3}
+            height={200}
+            content={familyMovie}
+            header="Family Movies"
+            error={errorText}
+          />
+        </ScrollView>
+      ) : (
+        <ActivityIndicator size="small" color="#0000ff" />
+      )}
     </SafeAreaView>
   );
 };

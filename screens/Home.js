@@ -12,6 +12,7 @@ import {
   getUpcomingMovies,
 } from '../services';
 import SlideList from '../components/SlideList/SlideList';
+import Error from '../components/Error/Error';
 
 const win = Dimensions.get('screen');
 
@@ -33,7 +34,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    setLoaded(true);
+    setLoaded(false);
     getData()
       .then(([upcomingMovie, popularMovie, popularTv, familyMovie]) => {
         setUpcomingMovie(upcomingMovie);
@@ -41,15 +42,17 @@ const Home = () => {
         setPopularTv(popularTv);
         setFamilyMovie(familyMovie);
       })
-      .catch(error => setErrorText('An error occured in the server.'))
+      .catch(() => setErrorText('An error occured in the server.'))
       .finally(() => {
-        setLoaded(false);
+        setLoaded(true);
       });
   }, []);
 
   return (
     <SafeAreaView>
       {!loaded ? (
+        <ActivityIndicator size="small" color="#0000ff" />
+      ) : !errorText ? (
         <ScrollView>
           {/* Upcoming movies */}
           <SlideList
@@ -57,7 +60,6 @@ const Home = () => {
             height={win.height / 2}
             content={upcomingMovie}
             title="Upcoming"
-            error={errorText}
           />
           {/* Popular movies */}
           <SlideList
@@ -65,7 +67,6 @@ const Home = () => {
             height={200}
             content={popularMovie}
             header="Popular Movies"
-            error={errorText}
           />
           {/* Popular tv */}
           <SlideList
@@ -73,7 +74,6 @@ const Home = () => {
             height={200}
             content={popularTv}
             header="Popular Tv"
-            error={errorText}
           />
           {/* Family movies */}
           <SlideList
@@ -81,11 +81,10 @@ const Home = () => {
             height={200}
             content={familyMovie}
             header="Family Movies"
-            error={errorText}
           />
         </ScrollView>
       ) : (
-        <ActivityIndicator size="small" color="#0000ff" />
+        <Error error={errorText} />
       )}
     </SafeAreaView>
   );

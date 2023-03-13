@@ -3,6 +3,7 @@ import React from 'react';
 import SlideCard from '../SlideCard/SlideCard';
 import styles from './SlideList.style';
 import PropTypes from 'prop-types';
+import Error from '../Error/Error';
 
 const propTypes = {
   content: PropTypes.array,
@@ -13,14 +14,8 @@ const propTypes = {
 };
 
 const SlideList = props => {
-  const {content, width, height, title, header, error} = props;
-  if (error && !content) {
-    return (
-      <SafeAreaView>
-        <Text style={{color: 'red'}}>{error}</Text>
-      </SafeAreaView>
-    );
-  }
+  const {content, width, height, title, header} = props;
+
   return (
     <>
       {header && <Text style={styles.header}>{header}</Text>}

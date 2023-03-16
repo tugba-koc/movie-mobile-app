@@ -3,7 +3,6 @@ import React from 'react';
 import SlideCard from '../SlideCard/SlideCard';
 import styles from './SlideList.style';
 import PropTypes from 'prop-types';
-import Error from '../Error/Error';
 
 const propTypes = {
   content: PropTypes.array,
@@ -14,7 +13,7 @@ const propTypes = {
 };
 
 const SlideList = props => {
-  const {content, width, height, title, header} = props;
+  const {content, width, height, title, header, navigation} = props;
 
   return (
     <>
@@ -28,6 +27,8 @@ const SlideList = props => {
         }}
         renderItem={itemData => (
           <SlideCard
+            itemData={itemData}
+            navigation={navigation}
             width={width}
             height={height}
             imgEndpointUrl={itemData.item.poster_path}

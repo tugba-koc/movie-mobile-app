@@ -17,10 +17,24 @@ const propTypes = {
   name: PropTypes.string,
 };
 
-const SlideCard = ({title, imgEndpointUrl, width, height, name}) => {
+const SlideCard = ({
+  title,
+  imgEndpointUrl,
+  width,
+  height,
+  name,
+  navigation,
+  itemData,
+}) => {
   const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate('Detail', {
+          movieItem: itemData,
+        })
+      }
+      style={styles.container}>
       {title ? (
         <ImageBackground
           resizeMode="cover"

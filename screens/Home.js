@@ -16,7 +16,7 @@ import Error from '../components/Error/Error';
 
 const win = Dimensions.get('screen');
 
-const Home = () => {
+const Home = ({navigation}) => {
   const [upcomingMovie, setUpcomingMovie] = useState([]);
   const [popularMovie, setPopularMovie] = useState([]);
   const [familyMovie, setFamilyMovie] = useState([]);
@@ -56,6 +56,7 @@ const Home = () => {
         <ScrollView>
           {/* Upcoming movies */}
           <SlideList
+            navigation={navigation}
             width={win.width}
             height={win.height / 2}
             content={upcomingMovie}
@@ -63,6 +64,7 @@ const Home = () => {
           />
           {/* Popular movies */}
           <SlideList
+            navigation={navigation}
             width={win.width / 3}
             height={200}
             content={popularMovie}
@@ -70,6 +72,7 @@ const Home = () => {
           />
           {/* Popular tv */}
           <SlideList
+            navigation={navigation}
             width={win.width / 3}
             height={200}
             content={popularTv}
@@ -77,6 +80,7 @@ const Home = () => {
           />
           {/* Family movies */}
           <SlideList
+            navigation={navigation}
             width={win.width / 3}
             height={200}
             content={familyMovie}

@@ -31,3 +31,10 @@ export const getFamilyMovies = async () => {
   let resJson = await res.json();
   return resJson.results;
 };
+
+// Get movie detail
+export const getMovieDetail = async movie_id => {
+  let res = await fetch(`${API_BASE_URL}/movie/${movie_id}`);
+  let resJson = await res.json();
+  return resJson.results;
+};
